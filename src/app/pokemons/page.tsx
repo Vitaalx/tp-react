@@ -33,7 +33,8 @@ export default function PokemonsPage() {
 	const bottomReached = window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight;
 	if (bottomReached) {
 		let newPage = page + 1;
-		getPokemons(newPage, pageLimit, queryParams);
+		const res = await api.get(`/pokemons?page=${newPage}&limit=${pageLimit}`);
+		//setPokemons((pokemons) => [...pokemons, ...res.data]);
 		setPage(newPage);									
 	}
   }
@@ -55,8 +56,7 @@ export default function PokemonsPage() {
 		}
 	  }
 	const res = await api.get(`/pokemons?page=${page}&limit=${limit}${test}`);
-	console.log(res.data);
-	setPokemons((pokemons) => [...pokemons, ...res.data]);
+	setPokemons(res.data);
   }
 
   const handleLimitChange = async (limit: number) => {
@@ -72,6 +72,7 @@ export default function PokemonsPage() {
   const handleSearch = async (query: { name?: string, type?: number, limit?: number }) => {
 	const { name, type, limit } = query;
 	setQueryParams((queryParams) => ({ ...queryParams, name: name || "", type: type ?? null, limit: limit || 0 }));
+	console.log("test");
 	getPokemons(page, pageLimit, queryParams)
   }
 
