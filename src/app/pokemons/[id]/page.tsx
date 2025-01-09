@@ -5,6 +5,7 @@ import { Pokemon } from "../page";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import api from "@/axios";
+import Link from "next/link";
 
 interface PokemonWithDetails {
 	name: Pokemon["name"],
@@ -84,6 +85,7 @@ export default function PokemonPage() {
 						))}
 					</ul>
 				</div>
+				<Link href="/pokemons">Retour</Link>
 			</div>
 		</>
 	  );

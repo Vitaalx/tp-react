@@ -33,7 +33,6 @@ export default function PokemonsPage() {
 	const bottomReached = window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight;
 	if (bottomReached) {
 		let newPage = page + 1;
-		console.log("bottom reached", newPage);
 		getPokemons(newPage, pageLimit, queryParams);
 		setPage(newPage);									
 	}
