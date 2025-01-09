@@ -43,17 +43,7 @@ export default function PokemonsPage() {
   }
 
   const getPokemons = async (page: number, limit: number, query?: { name?: string; typeId?: number | null }) => {
-	let test = "";
-	if (query) {
-		const { name, typeId } = query;
-		if (name) {
-			test += `&name=${name}`;
-		}
-		if (typeId && typeId > 0) {
-			test += `&typeId=${typeId}`;
-		}
-	  }
-	const res = await api.get(`/pokemons?page=${page}&limit=${limit}${test}`);
+	const res = await api.get("/pokemons", {params: {...query, limit: limit, page: page}});
 	setPokemons(res.data);
   }
 
@@ -65,9 +55,8 @@ export default function PokemonsPage() {
 	setQueryParams({ ...queryParams, typeId });
   }
 
-  const handleSearch = async (query: { name?: string, type?: number }) => {
-	const { name } = query;
-	getPokemons(page, pageLimit, { ...queryParams, name: name});
+  const handleSearch = async (name: string) => {
+	setQueryParams({ ...queryParams, name });
   }
 
   useEffect(() => {
@@ -83,7 +72,7 @@ export default function PokemonsPage() {
   return (
     <div className="flex flex-col justify-center items-center m-4 gap-4">
 		<div className="flex gap-4 text-black">
-			<input type="text" onChange={(e) => handleSearch({ name: e.target.value })} placeholder="Nom" className="w-full p-2" />
+			<input type="text" onChange={(e) => handleSearch(e.target.value)} placeholder="Nom" className="w-full p-2" />
 			<select
 				value={queryParams.typeId ?? ""}
 				onChange={(e) => handleTypeIdChange(Number(e.target.value))}
