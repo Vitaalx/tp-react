@@ -33,9 +33,7 @@ export default function PokemonsPage() {
 	const bottomReached = window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight;
 	if (bottomReached) {
 		let newPage = page + 1;
-		const res = await api.get(`/pokemons?page=${newPage}&limit=${pageLimit}`);
-		//setPokemons((pokemons) => [...pokemons, ...res.data]);
-		setPage(newPage);									
+		setPage(newPage);						
 	}
   }
 
@@ -61,25 +59,21 @@ export default function PokemonsPage() {
 
   const handleLimitChange = async (limit: number) => {
 	setPageLimit(limit);
-	getPokemons(page, limit);
   }
 
   const handleTypeIdChange = async (typeId: number) => {
-	setQueryParams((queryParams) => ({...queryParams, typeId: typeId}));
-	getPokemons(page, pageLimit, queryParams)
+	setQueryParams({ ...queryParams, typeId });
   }
 
-  const handleSearch = async (query: { name?: string, type?: number, limit?: number }) => {
-	const { name, type, limit } = query;
-	setQueryParams((queryParams) => ({ ...queryParams, name: name || "", type: type ?? null, limit: limit || 0 }));
-	console.log("test");
-	getPokemons(page, pageLimit, queryParams)
+  const handleSearch = async (query: { name?: string, type?: number }) => {
+	const { name } = query;
+	getPokemons(page, pageLimit, { ...queryParams, name: name});
   }
 
   useEffect(() => {
-    getPokemons(page, pageLimit)
+    getPokemons(page, pageLimit, queryParams)
 	getPokemonTypes()
-  }, []);
+  }, [page, pageLimit, queryParams]);
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
