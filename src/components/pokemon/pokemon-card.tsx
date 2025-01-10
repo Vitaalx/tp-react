@@ -18,9 +18,9 @@ export default function PokemonCard({ pokemon }: Props) {
           height={128}
           className="w-32 h-32 mx-auto"
         />
-        <Link href={` `} className="text-xl font-semibold text-center">
+        <h3 className="text-xl font-semibold text-center">
           {pokemon.id} - {pokemon.name}
-        </Link>
+        </h3>
         <div className="flex justify-center">
           {pokemon.types.map((type) => (
             <Image
